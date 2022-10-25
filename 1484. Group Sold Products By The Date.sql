@@ -70,3 +70,13 @@ select sell_date, count(product) as num_sold, string_agg(product,',') within gro
 from (select distinct product,sell_date from Activities) temp
 group by temp.sell_date
 order by temp.sell_date;
+
+
+
+
+2)
+select sell_date, 
+    COUNT(product) as num_sold,
+    STRING_AGG(product,',') WITHIN GROUP (ORDER BY product) as products from
+    (select distinct sell_date,product FROM Activities) Act
+    GROUP BY sell_date
