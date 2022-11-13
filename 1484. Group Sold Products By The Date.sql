@@ -80,3 +80,20 @@ select sell_date,
     STRING_AGG(product,',') WITHIN GROUP (ORDER BY product) as products from
     (select distinct sell_date,product FROM Activities) Act
     GROUP BY sell_date
+
+
+
+
+select distinct 
+sell_date, num_sold = count(distinct product)
+products = STUFF(
+( select
+',' + product from activities b 
+ where a.sell_date = b.sell_date for xml path('') ),1,1,'' )from activities  a group by sell_date
+=========================================================================================================================================== 
+ select sell_date, count(distinct product) as num_sold, products=
+stuff((select distinct ','+product
+from activities b where a.sell_date=b.sell_date
+for xml path('')),1,1,'')
+from activities a
+group by sell_date
